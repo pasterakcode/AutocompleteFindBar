@@ -93,10 +93,17 @@ const itSkillsList = (): Promise<ItSkillsList> => {
                         skill_id: 22,
                         name: 'Customer Relationship Management',
                     },
-
-                ]
+                    {
+                        skill_id: 23,
+                        name: 'HTML',
+                    },
+                    {
+                        skill_id: 24,
+                        name: 'JavaScript',
+                    }
+                ],
             });
         }, 1000);
-    })
+    });
 };
 export default itSkillsList;
