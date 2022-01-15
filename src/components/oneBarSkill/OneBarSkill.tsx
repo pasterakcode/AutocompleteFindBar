@@ -16,9 +16,9 @@ const OneBarSkills = ( { skill, onHandleSelectSkill }:OneBarSkillsProps ) => {
     }
     
     return (
-        <div style={fastStyle} onClick={handleClickOnSkill}>
-            {skill.name}
-        </div>
+        <li style={fastStyle}>
+           <p  onClick={handleClickOnSkill}>{skill.name}</p>
+        </li>
     )
 }
 export default OneBarSkills;

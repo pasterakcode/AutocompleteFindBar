@@ -7,9 +7,9 @@ import OneBarSkills from './components/oneBarSkill/OneBarSkill';
 import { SlowBuffer } from 'buffer';
 
 function App() {
-	const [skills, setSkills] = useState<Skill[] | null>(null);
+	const [skills, setSkills] = useState<Skill[]>([]);
 	const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-	const [skillsToShow, setSkillsToShow] = useState<Skill[] | null>(null);
+	const [skillsToShow, setSkillsToShow] = useState<Skill[]>([]);
 
 	useEffect(() => {
 		const getData = async () => {
@@ -25,17 +25,14 @@ function App() {
 
 	const handleSelectSkill = (skill: string): void => {
 		selectedSkills && setSelectedSkills(prev => [...prev, skill]);
-		if (skillsToShow) {
-			const newToShow = skillsToShow.filter(el => el.name !== skill);
-			setSkillsToShow(newToShow);
-		}
+		setSkillsToShow(prev => prev.filter(el => el.name !== skill));
 	};
 
 	const handleDeleteSkill = (skillToDelete: string): void => {
-		const selectedWithoutToDelete = selectedSkills.filter(
-			skill => skill !== skillToDelete
-		);
-		setSelectedSkills(selectedWithoutToDelete);
+		const deletedSkill = skills?.find((skill: Skill): boolean => skill.name === skillToDelete) || [];
+		console.log(deletedSkill)
+		setSkillsToShow(prev => ([...prev].concat(deletedSkill)).sort((a,b) => a.skill_id > b.skill_id? 1 : -1));
+		setSelectedSkills(prev => prev.filter(skill => skill !== skillToDelete));
 	};
 
 	const handleFindSkillsInput = (charsToFind: string): void => {
@@ -56,8 +53,9 @@ function App() {
 				onHandleFindSkillsInput={handleFindSkillsInput}
 				onHandleDeleteSkill={handleDeleteSkill}
 			/>
+			<ul>
 			{skillsToShow ? (
-				skillsToShow.map(skill => (
+				skillsToShow.sort().map(skill => (
 					<OneBarSkills
 						key={skill.skill_id}
 						skill={skill}
@@ -67,6 +65,7 @@ function App() {
 			) : (
 				<div>wczytuje strone</div>
 			)}
+			</ul>
 		</div>
 	);
 }
