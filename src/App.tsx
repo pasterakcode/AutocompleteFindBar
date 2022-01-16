@@ -9,6 +9,7 @@ import { SlowBuffer } from 'buffer';
 function App() {
 	const [skills, setSkills] = useState<Skill[]>([]);
 	const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+	const [focusedSkill, setFocusedSkill] = useState<Skill | null>(null)
 	const [skillsToShow, setSkillsToShow] = useState<Skill[]>([]);
 
 	useEffect(() => {
@@ -23,11 +24,33 @@ function App() {
 		setSkillsToShow(skills);
 	}, [skills]);
 
+	useEffect(() => {
+		handleFocusedSkill();
+	}, [skillsToShow])
+
 	const handleSelectSkill = (skill: string): void => {
 		selectedSkills && setSelectedSkills(prev => [...prev, skill]);
 		setSkillsToShow(prev => prev.filter(el => el.name !== skill));
 	};
 
+	const handleFocusedSkill = ( direction: number = 0, toClear: boolean = false ): void => {
+		if (toClear){
+			setFocusedSkill(null)
+			console.log('czyszcze focused')
+		} else {
+			if (direction != 0 && focusedSkill){
+				console.log('ustawiam 1 focused')
+				const currentIndex: number = skillsToShow.indexOf(focusedSkill);
+				const newFocus = skillsToShow[currentIndex + direction]? skillsToShow[currentIndex + direction] : skillsToShow[currentIndex]
+				setFocusedSkill(newFocus)
+			} else {
+				if(skillsToShow.length != skills.length){
+					console.log('ustawiam 2 focused . Na 0')
+					setFocusedSkill(skillsToShow[0])
+				}
+			}
+		}
+	}
 	const handleDeleteSkill = (skillToDelete: string): void => {
 		const deletedSkill =
 			skills?.find((skill: Skill): boolean => skill.name === skillToDelete) ||
@@ -44,21 +67,25 @@ function App() {
 		setSkillsToShow(
 			skills?.filter(
 				skill =>
-					skill.name.toUpperCase().includes(charsToFind.toUpperCase()) &&
+					skill.name.slice(0, charsToFind.length).toUpperCase() === charsToFind.toUpperCase() &&
 					!selectedSkills.includes(skill.name)
 			)
 		);
+		if (charsToFind === ''){
+			handleFocusedSkill(0, true);
+		}
 	};
 
 	return (
 		<div className='App'>
 			skill
 			<FindBar
-				firstSkillFromShow={skillsToShow[0]}
+				focusedSkill={focusedSkill}
 				selectedSkills={selectedSkills}
 				onHandleFindSkillsInput={handleFindSkillsInput}
 				onHandleDeleteSkill={handleDeleteSkill}
 				onHandleSelectSkill={handleSelectSkill}
+				onHandleFocusedSkill={handleFocusedSkill}
 			/>
 			<ul>
 				{skillsToShow ? (
