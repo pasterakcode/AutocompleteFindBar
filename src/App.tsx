@@ -9,8 +9,9 @@ import { SlowBuffer } from 'buffer';
 function App() {
 	const [skills, setSkills] = useState<Skill[]>([]);
 	const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-	const [focusedSkill, setFocusedSkill] = useState<Skill | null>(null)
+	const [focusedSkill, setFocusedSkill] = useState<Skill | null>(null);
 	const [skillsToShow, setSkillsToShow] = useState<Skill[]>([]);
+	const [inputFindIsEmpty, setInputFindIsEmpty] = useState<boolean>(true);
 
 	useEffect(() => {
 		const getData = async () => {
@@ -26,31 +27,31 @@ function App() {
 
 	useEffect(() => {
 		handleFocusedSkill();
-	}, [skillsToShow])
+	}, [skillsToShow]);
 
 	const handleSelectSkill = (skill: string): void => {
 		selectedSkills && setSelectedSkills(prev => [...prev, skill]);
 		setSkillsToShow(prev => prev.filter(el => el.name !== skill));
 	};
 
-	const handleFocusedSkill = ( direction: number = 0, toClear: boolean = false ): void => {
-		if (toClear){
-			setFocusedSkill(null)
-			console.log('czyszcze focused')
+	const handleInputFindIsEmpty = (status: boolean): void => {
+		if (inputFindIsEmpty !== status) setInputFindIsEmpty(status);
+	};
+	const handleFocusedSkill = (direction: number = 0): void => {
+		if (inputFindIsEmpty) {
+			setFocusedSkill(null);
 		} else {
-			if (direction != 0 && focusedSkill){
-				console.log('ustawiam 1 focused')
-				const currentIndex: number = skillsToShow.indexOf(focusedSkill);
-				const newFocus = skillsToShow[currentIndex + direction]? skillsToShow[currentIndex + direction] : skillsToShow[currentIndex]
-				setFocusedSkill(newFocus)
+			if (direction != 0 && focusedSkill) {
+				const currentIndex = skillsToShow.indexOf(focusedSkill);
+				const newFocus = skillsToShow[currentIndex + direction]
+					? skillsToShow[currentIndex + direction]
+					: skillsToShow[currentIndex];
+				setFocusedSkill(newFocus);
 			} else {
-				if(skillsToShow.length != skills.length){
-					console.log('ustawiam 2 focused . Na 0')
-					setFocusedSkill(skillsToShow[0])
-				}
+				setFocusedSkill(skillsToShow[0]);
 			}
 		}
-	}
+	};
 	const handleDeleteSkill = (skillToDelete: string): void => {
 		const deletedSkill =
 			skills?.find((skill: Skill): boolean => skill.name === skillToDelete) ||
@@ -67,41 +68,41 @@ function App() {
 		setSkillsToShow(
 			skills?.filter(
 				skill =>
-					skill.name.slice(0, charsToFind.length).toUpperCase() === charsToFind.toUpperCase() &&
-					!selectedSkills.includes(skill.name)
+					skill.name.slice(0, charsToFind.length).toUpperCase() ===
+						charsToFind.toUpperCase() && !selectedSkills.includes(skill.name)
 			)
 		);
-		if (charsToFind === ''){
-			handleFocusedSkill(0, true);
-		}
 	};
 
 	return (
 		<div className='App'>
-			skill
-			<FindBar
-				focusedSkill={focusedSkill}
-				selectedSkills={selectedSkills}
-				onHandleFindSkillsInput={handleFindSkillsInput}
-				onHandleDeleteSkill={handleDeleteSkill}
-				onHandleSelectSkill={handleSelectSkill}
-				onHandleFocusedSkill={handleFocusedSkill}
-			/>
-			<ul>
-				{skillsToShow ? (
-					skillsToShow
-						.sort()
-						.map(skill => (
-							<OneBarSkills
-								key={skill.skill_id}
-								skill={skill}
-								onHandleSelectSkill={handleSelectSkill}
-							/>
-						))
-				) : (
-					<div>wczytuje strone</div>
-				)}
-			</ul>
+			<div className='Dropdown'>
+				<FindBar
+					focusedSkill={focusedSkill}
+					selectedSkills={selectedSkills}
+					onHandleFindSkillsInput={handleFindSkillsInput}
+					onHandleDeleteSkill={handleDeleteSkill}
+					onHandleSelectSkill={handleSelectSkill}
+					onHandleFocusedSkill={handleFocusedSkill}
+					onHandleInputFindIsEmpty={handleInputFindIsEmpty}
+				/>
+				<div className='Sugestions'>
+					{skillsToShow.length > 0 ? (
+						skillsToShow
+							.sort()
+							.map(skill => (
+								<OneBarSkills
+									key={skill.skill_id}
+									skill={skill}
+									onHandleSelectSkill={handleSelectSkill}
+									focusedSkill={focusedSkill}
+								/>
+							))
+					) : (
+						<div>wczytuje strone</div>
+					)}
+				</div>
+			</div>
 		</div>
 	);
 }

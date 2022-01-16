@@ -1,24 +1,25 @@
 import { Skill } from "../../interface/Interface";
+import styles from './OneBarSkill.module.css'
 
 interface OneBarSkillsProps {
 	skill: Skill;
     onHandleSelectSkill: Function,
+    focusedSkill: Skill | null;
 }
 
 const fastStyle = {
-    'height': '30px',
-    'border': '.5px solid red',
+    'backgroundColor': 'rgb(223, 223, 223)',
 }
 
-const OneBarSkills = ( { skill, onHandleSelectSkill }:OneBarSkillsProps ) => {
+const OneBarSkills = ( { skill, onHandleSelectSkill, focusedSkill }:OneBarSkillsProps ) => {
     const handleClickOnSkill = (e: React.MouseEvent<HTMLDivElement>): void => {
         onHandleSelectSkill(skill.name);
     }
     
     return (
-        <li style={fastStyle}>
-           <p  onClick={handleClickOnSkill}>{skill.name}</p>
-        </li>
+        <div style={skill.name === focusedSkill?.name? fastStyle : {}} className={styles.oneBar} onClick={handleClickOnSkill}>
+           {skill.name}
+        </div>
     )
 }
 export default OneBarSkills;

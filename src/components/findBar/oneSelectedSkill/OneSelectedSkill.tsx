@@ -1,4 +1,4 @@
-import { Skill } from "../../../interface/Interface";
+import styles from './OneSelectedSkill.module.css'
 
 interface OneSelectedSkillProps {
     skillName: string,
@@ -9,8 +9,8 @@ const OneSelectedSkill = ( { skillName, onHandleDeleteSkill }:OneSelectedSkillPr
         onHandleDeleteSkill(skillName)
     }
     return (
-        <div>
-            {skillName} <button onClick={handleClickToDeleteSkill}>X</button>
+        <div className={styles.oneSkill}>
+            {skillName} <button onClick={handleClickToDeleteSkill}>x</button>
         </div>
     )
 }
