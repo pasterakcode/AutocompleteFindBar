@@ -23,7 +23,6 @@ const FindBar = ({
 	onHandleInputFindIsEmpty,
 }: FindBarProps) => {
 	const [inputValue, setInputValue] = useState<string>('');
-
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const toFind = e.target.value;
 		setInputValue(toFind);
@@ -39,7 +38,7 @@ const FindBar = ({
 		if (e.code === 'ArrowDown') {
 			onHandleFocusedSkill(1);
 		}
-		if (e.code === 'Enter' && inputValue != '') {
+		if (e.code === 'Enter' && inputValue !== '') {
 			onHandleInputFindIsEmpty(true);
 			setInputValue('');
 			onHandleFindSkillsInput('');
@@ -65,7 +64,7 @@ const FindBar = ({
 					onChange={e => handleChangeInput(e)}
 					onKeyDown={e => handleInputKeyPress(e)}
 				/>
-				<div className={styles.sugestion}><span>{focusedSkill?.name.slice(0, inputValue.length)}</span>{focusedSkill?.name.slice(inputValue.length)}</div>
+				<span className={styles.sugestion}><span className={styles.toHide}>{focusedSkill?.name.slice(0, inputValue.length)}</span>{focusedSkill?.name.slice(inputValue.length)}</span>
 			</div>
 		</div>
 	);

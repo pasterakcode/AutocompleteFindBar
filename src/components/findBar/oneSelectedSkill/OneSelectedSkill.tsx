@@ -10,7 +10,7 @@ const OneSelectedSkill = ( { skillName, onHandleDeleteSkill }:OneSelectedSkillPr
     }
     return (
         <div className={styles.oneSkill}>
-            {skillName} <button onClick={handleClickToDeleteSkill}>x</button>
+            {skillName} <button onClick={handleClickToDeleteSkill}>{'\u2715'}</button>
         </div>
     )
 }

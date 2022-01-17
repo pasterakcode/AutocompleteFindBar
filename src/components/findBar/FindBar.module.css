@@ -1,44 +1,54 @@
 .findBar {
-    padding: 0.5rem .5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0 .5rem .5rem .5rem;
     border: 1px solid rgb(223, 223, 223);
     border-bottom: none;
-    display: flex;
-    align-items: center;
 }
 .inputArea {
     position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
 }
 .inputArea input {
-    border: none;
     padding: 0 0.5rem;
-    font-size: 1.5rem;
-    line-height: 3rem;
+    border: none;
+    width: 200px;
+    height: 2rem;
     letter-spacing: .1rem;
-    font-weight: normal;
+    line-height: 2rem;
+    font-size: 1.4rem;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: transparent;
+    z-index: 2;
+    overflow: hidden;
 }
+.inputArea input:focus {
+    outline: none;
+  }
 .inputArea .sugestion {
     position: absolute;
-    top: 50%;
-    left: .55rem;
-    font-size: 1.5rem;
-    transform: translateY(-55%);
+    top: 0%;
+    left: .50rem;
+    letter-spacing: .1rem;
+    line-height: 2rem;
+    font-size: 1.4rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: rgb(190, 190, 190);
     padding: 0;
     margin: 0;
-    letter-spacing: .1rem;
-    font-weight: normal;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    z-index: 1;
 }
-.inputArea .sugestion span{
+.inputArea .sugestion .toHide{
     color: transparent;
-    letter-spacing: .1rem;
-    font-weight: normal;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 .selectedSkills {
     margin-right: 0.5rem;
     display: flex;
     flex-wrap: wrap;
-    max-width: 60%;
+    align-items: center;
+    align-content: stretch;
+    justify-content: flex-start;
 }

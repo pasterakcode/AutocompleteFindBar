@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { Skill } from './interface/Interface';
 import FindBar from './components/findBar/FindBar';
 import OneBarSkills from './components/oneBarSkill/OneBarSkill';
-import { SlowBuffer } from 'buffer';
+import LoadingData from './components/statusInfo/loadingData/LoadingData';
+import NoItemsInfo from './components/statusInfo/noItemsInfo/NoItemsInfo';
 
 function App() {
 	const [skills, setSkills] = useState<Skill[]>([]);
@@ -20,20 +21,16 @@ function App() {
 		};
 		getData();
 	}, []);
-
 	useEffect(() => {
 		setSkillsToShow(skills);
 	}, [skills]);
-
 	useEffect(() => {
 		handleFocusedSkill();
 	}, [skillsToShow]);
-
 	const handleSelectSkill = (skill: string): void => {
 		selectedSkills && setSelectedSkills(prev => [...prev, skill]);
 		setSkillsToShow(prev => prev.filter(el => el.name !== skill));
 	};
-
 	const handleInputFindIsEmpty = (status: boolean): void => {
 		if (inputFindIsEmpty !== status) setInputFindIsEmpty(status);
 	};
@@ -41,7 +38,7 @@ function App() {
 		if (inputFindIsEmpty) {
 			setFocusedSkill(null);
 		} else {
-			if (direction != 0 && focusedSkill) {
+			if (direction !== 0 && focusedSkill) {
 				const currentIndex = skillsToShow.indexOf(focusedSkill);
 				const newFocus = skillsToShow[currentIndex + direction]
 					? skillsToShow[currentIndex + direction]
@@ -53,17 +50,14 @@ function App() {
 		}
 	};
 	const handleDeleteSkill = (skillToDelete: string): void => {
-		const deletedSkill =
-			skills?.find((skill: Skill): boolean => skill.name === skillToDelete) ||
-			[];
-		setSkillsToShow(prev =>
+		const deletedSkill = skills?.find((skill: Skill): boolean => skill.name === skillToDelete) || [];
+		setSkillsToShow(prev => 
 			[...prev]
 				.concat(deletedSkill)
 				.sort((a, b) => (a.skill_id > b.skill_id ? 1 : -1))
 		);
 		setSelectedSkills(prev => prev.filter(skill => skill !== skillToDelete));
 	};
-
 	const handleFindSkillsInput = (charsToFind: string): void => {
 		setSkillsToShow(
 			skills?.filter(
@@ -99,12 +93,11 @@ function App() {
 								/>
 							))
 					) : (
-						<div>wczytuje strone</div>
+						skills.length > 0? <NoItemsInfo/> : <LoadingData/>
 					)}
 				</div>
 			</div>
 		</div>
 	);
 }
-
 export default App;

@@ -1,21 +1,29 @@
 .App {
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
 }
-
 .Dropdown {
   width: 400px;
   max-height: 400px;
   padding: .5rem;
 }
-
 .Sugestions {
   border: 1px solid rgb(223, 223, 223);
   height: 300px;
   overflow: scroll;
   overflow-x: hidden;
+}
+.Sugestions::-webkit-scrollbar {
+  width: 6px; 
+}
+.Sugestions::-webkit-scrollbar-track {
+  background: transparent; 
+}
+.Sugestions::-webkit-scrollbar-thumb {
+  background-color: rgb(223, 223, 223);
+  border-radius: 20px; 
 }

@@ -7,7 +7,7 @@ interface OneBarSkillsProps {
     focusedSkill: Skill | null;
 }
 
-const fastStyle = {
+const focusedStyle = {
     'backgroundColor': 'rgb(223, 223, 223)',
 }
 
@@ -17,7 +17,7 @@ const OneBarSkills = ( { skill, onHandleSelectSkill, focusedSkill }:OneBarSkills
     }
     
     return (
-        <div style={skill.name === focusedSkill?.name? fastStyle : {}} className={styles.oneBar} onClick={handleClickOnSkill}>
+        <div style={skill.name === focusedSkill?.name? focusedStyle : {}} className={styles.oneBar} onClick={handleClickOnSkill}>
            {skill.name}
         </div>
     )
